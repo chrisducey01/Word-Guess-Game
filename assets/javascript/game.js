@@ -1,6 +1,6 @@
 var wordsToGuess = ["Dorothy","Sophia","Blanche","Rose"];
 var wordsGuessed = ["Dorothy"];
-var wordToGuess = "Blanche";
+var wordToGuess = "Dorothy";
 var lettersGuessed = [];
 var gameBoardWordDisplay = [];
 var letterGuessed;
@@ -13,24 +13,44 @@ function buildMaskedWord(word){
     return maskedWord;
 }
 
-function unmaskLetter(array, position, letter){
+function findLetterOccurences(array, letter){
+    var arrayPositions = [];
+    var indexPos = -1;
 
+    do{
+        if(indexPos === -1){
+            indexPos = array.toLowerCase().indexOf(letter);    
+        }
+        else{
+            indexPos = array.indexOf(letter,indexPos + 1);
+        }
+        
+        if(indexPos > -1){
+            arrayPositions.push(indexPos);
+        }
+    } while(indexPos > -1)
+    return arrayPositions;
+}
+
+function unmaskLetters(maskedWord,unmaskedWord, positions){
+    for(var i=0; i < positions.length; i++){
+        var pos = positions[i];
+        maskedWord[pos] = unmaskedWord[pos];
+    }
+    return maskedWord;
 }
 
 gameBoardWordDisplay = buildMaskedWord(wordToGuess);
 
 console.log(gameBoardWordDisplay);
 
+
 document.onkeyup = function(event){
     letterGuessed = event.key.toLowerCase();
-    var indexPos = wordToGuess.toLowerCase().indexOf(letterGuessed);
-    if( indexPos === -1){
-        console.log(letterGuessed + " not found");
-    }
-    else{
-        console.log(letterGuessed + " is part of the word");
-        gameBoardWordDisplay[indexPos] = wordToGuess[indexPos];
-        console.log(gameBoardWordDisplay);
-    }
+    console.log("Before guess: " + gameBoardWordDisplay);
+    var positions = findLetterOccurences(wordToGuess, letterGuessed);
+    console.log("Found the letter here: " + positions);
+    gameBoardWordDisplay = unmaskLetters(gameBoardWordDisplay, wordToGuess, positions);
+    console.log("After guess: " + gameBoardWordDisplay);
 };
 
