@@ -97,8 +97,9 @@ function unmaskLetters(maskedWord, unmaskedWord, positions) {
 function initGameTurn() {
     wordToGuess = getNewWord();
     currentWordGuessed = false;
-    console.log(wordToGuess);
-    console.log(wordToGuess.length);
+    lettersGuessed = [];
+    wrongLettersGuessed = [];
+
     if (wordToGuess.length > 0) {
         gameBoardWordDisplay = buildMaskedWord(wordToGuess);
         console.log(gameBoardWordDisplay);
@@ -159,6 +160,8 @@ document.onkeyup = function (event) {
                 //NOTE:  Still need to add in text to update the words on the screen so they know they lost
                 if(guessesRemaining < 1){
                     gameOver = true;
+                    instructionText = "Well shucky darn you used up all your guesses.  Looks like you lose the game.  Press any key to start a new game.";
+                    instructionTextObject.textContent = instructionText;
                 }
             }
             //GUESSED RIGHT!
