@@ -5,7 +5,7 @@
 const maxGuesses = 5;
 
 //globals used throughout each round
-var wordsToGuess = ["Dorothy", "Sophia", "Blanche", "Rose"];
+var wordsToGuess = ["Stripes","Ghostbusters","Groundhog Day","Caddyshack","Lost in Translation","Scrooged","Kingpin","What About Bob","Zombieland","Meatballs"];
 var wordsGuessed = [];  //keep track of words guessed as user successfully moves through them
 var wordToGuess;  //the word to guess for each game, pulled from the array
 var guessesRemaining;
@@ -21,12 +21,12 @@ var wrongLettersGuessed = [];   //subset of letters guessed that  are letters no
 var gameBoardWordDisplay = [];  //starts by displaying the word masked with "_" for each letter
 var letterGuessed;
 
-
 //grab elements from the html by id
 var instructionTextObject = document.getElementById("instructions");
 var lettersObject = document.getElementById("letters");
 var guessesObject = document.getElementById("guesses");
 var guessedLettersObject = document.getElementById("guessedLetters");
+var scoreObject = document.getElementById("score");
 
 /*
   FUNCTIONS GO BELOW HERE
@@ -56,7 +56,13 @@ function getNewWord() {
 function buildMaskedWord(word) {
     var maskedWord = [];
     for (var i = 0; i < word.length; i++) {
-        maskedWord.push("_");
+        console.log(word[i]);
+        if(word[i] === " "){
+            maskedWord.push("|");
+        }
+        else{
+            maskedWord.push("_");
+        }
     }
     return maskedWord;
 }
@@ -70,7 +76,7 @@ function findLetterOccurences(array, letter) {
             indexPos = array.toLowerCase().indexOf(letter);
         }
         else {
-            indexPos = array.indexOf(letter, indexPos + 1);
+            indexPos = array.toLowerCase().indexOf(letter, indexPos + 1);
         }
 
         if (indexPos > -1) {
@@ -113,6 +119,7 @@ function initGameTurn() {
 
 function initNewGame(){
     winCount = 0;
+    scoreObject.textContent = winCount;
     allWordsGuessed = false;
     currentWordGuessed = false;
     gameOver = false;
@@ -166,6 +173,8 @@ document.onkeyup = function (event) {
                 if (gameBoardWordDisplay.indexOf("_") === -1) {
                     currentWordGuessed = true;
                     winCount++;
+                    scoreObject.textContent = winCount;
+                    wordsGuessed.push(wordToGuess);
                     instructionText = "Nice job you guessed the word!  Press any key to guess a new word.";
                     instructionTextObject.textContent = instructionText;
                 }

@@ -5,12 +5,65 @@
     <title>Word Guess Game</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
         <div class="row">
-            <div class="jumbotron">
+            <div class="col-12">
+                <h1>Word Guess Game</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h1>Bill Murray Movies Edition</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3 id="instructions">
+                    </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <img src="assets/images/question_mark.png" alt="Answer Image">
+            </div>
+            <div class="col-7 m-auto">
+                <h2 id="letters">HHHHHH</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3>Letters Guessed</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p id="guessedLetters"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3>Wins: <span id="score"></span></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p id="guesses"></p>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="assets/javascript/game.js"></script>
+</body>
+
+</html>
+
+<!-- <div class="jumbotron">
                 <h1 class="display-4">Word Guess Game</h1>
                 <p class="lead" id="instructions">Press any key to begin playing</p>
                 <hr class="my-4">
@@ -19,11 +72,6 @@
                 <hr class="my-4">
                 <h3>Letters Guessed</h3>
                 <p id="guessedLetters"></p>
-            </div>
-        </div>
-    </div>
-
-    <script type="text/javascript" src="assets/javascript/game.js"></script>
-</body>
-
-</html>
+                <hr class="my-4">
+                <h3>Wins: <span id="score"></span></h3>
+            </div> -->
