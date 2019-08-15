@@ -3,6 +3,22 @@
    GLOBAL VARIABLES
 */
 const maxGuesses = 5;
+const wordArray = [
+    {wordToGuess: "Ghostbusters", imgSrc: "assets/images/ghostbusters.jpg"},
+    {wordToGuess: "Stripes", imgSrc: "assets/images/stripes.jpg"},
+    {wordToGuess: "Groundhog Day", imgSrc: "assets/images/groundhog_day.jpg"},
+    {wordToGuess: "CaddyShack", imgSrc: "assets/images/caddyshack.jpg"},
+    {wordToGuess: "Lost in Translation", imgSrc: "assets/images/lost_in_translation.jpg"},
+    {wordToGuess: "Scrooged", imgSrc: "assets/images/stripes.jpg"},
+    {wordToGuess: "Kingpin", imgSrc: "assets/images/stripes.jpg"},
+    {wordToGuess: "What About Bob", imgSrc: "assets/images/stripes.jpg"},
+    {wordToGuess: "ZombieLand", imgSrc: "assets/images/stripes.jpg"},
+    {wordToGuess: "Meatballs", imgSrc: "assets/images/stripes.jpg"}
+];
+
+const guessImgPath = "assets/images/question_mark.png";
+const loseImgPath = "assets/images/game_over.png";
+
 
 //grab elements from the html by id
 var instructionTextObject = document.getElementById("instructions");
@@ -13,20 +29,10 @@ var scoreObject = document.getElementById("score");
 var imageObject = document.getElementById("answerImage");
 
 var gameObject = {
-    wordArray : [
-        {wordToGuess: "Ghostbusters", imgSrc: "assets/images/ghostbusters.jpg"},
-        {wordToGuess: "Stripes", imgSrc: "assets/images/stripes.jpg"},
-        {wordToGuess: "Groundhog Day", imgSrc: "assets/images/stripes.jpg"},
-        {wordToGuess: "CaddyShack", imgSrc: "assets/images/stripes.jpg"},
-        {wordToGuess: "Lost in Translation", imgSrc: "assets/images/stripes.jpg"},
-        {wordToGuess: "Scrooged", imgSrc: "assets/images/stripes.jpg"},
-        {wordToGuess: "Kingpin", imgSrc: "assets/images/stripes.jpg"},
-        {wordToGuess: "What About Bob", imgSrc: "assets/images/stripes.jpg"},
-        {wordToGuess: "ZombieLand", imgSrc: "assets/images/stripes.jpg"},
-        {wordToGuess: "Meatballs", imgSrc: "assets/images/stripes.jpg"}
-    ],
-
+    wordsToGuessArray : wordArray,
     wordsGuessed : [],
+    wordArrayPos : -1,
+
     wordToGuess : "",
     guessesRemaining : 0,
     winCount : 0,
@@ -43,13 +49,9 @@ var gameObject = {
 
     getNewWord : function() {
         var newWord;
-    
-        for (var i = 0; i < this.wordArray.length; i++) {
-            if (this.wordsGuessed.indexOf(this.wordArray[i].wordToGuess) === -1) {
-                newWord = this.wordArray[i].wordToGuess;
-                break;
-            }
-        }
+        var randomNum = Math.floor(Math.random() * this.wordsToGuessArray.length);
+        newWord = this.wordsToGuessArray[randomNum].wordToGuess;
+        this.wordArrayPos = randomNum;
     
         return newWord;
     },
@@ -82,7 +84,7 @@ var gameObject = {
         this.wrongLettersGuessed = [];
     
         if (this.wordToGuess.length > 0) {
-            imageObject.setAttribute("src","assets/images/question_mark.png");
+            imageObject.setAttribute("src",guessImgPath);
             this.gameBoardWordDisplay = this.buildMaskedWord(this.wordToGuess);
             lettersObject.textContent = this.gameBoardWordDisplay.join(' ');
             this.instructionText = "Press any letter to start guessing";
@@ -106,6 +108,7 @@ var gameObject = {
         this.currentWordGuessed = false;
         this.gameOver = false;
         this.wordsGuessed = [];
+        this.wordsToGuessArray = wordArray;
         this.initGameTurn();
     },
 
@@ -126,8 +129,11 @@ var gameObject = {
             }
         } while (indexPos > -1)
         return arrayPositions;
+    },
+
+    moveGuessedWord : function(){
+        this.wordsGuessed.push(this.wordsToGuessArray.splice(this.wordArrayPos,1));
     }
-    
     
 };
 
@@ -173,6 +179,7 @@ document.onkeyup = function (event) {
                     gameObject.gameOver = true;
                     gameObject.instructionText = "Well shucky darn you used up all your guesses.  Looks like you lose the game.  Press any key to start a new game.";
                     instructionTextObject.textContent = gameObject.instructionText;
+                    imageObject.setAttribute("src", loseImgPath);
                 }
             }
             //GUESSED RIGHT!
@@ -188,10 +195,10 @@ document.onkeyup = function (event) {
                     gameObject.currentWordGuessed = true;
                     gameObject.winCount++;
                     scoreObject.textContent = gameObject.winCount;
-                    gameObject.wordsGuessed.push(gameObject.wordToGuess);
                     gameObject.instructionText = "Nice job you guessed the word!  Press any key to guess a new word.";
                     instructionTextObject.textContent = gameObject.instructionText;
-                    imageObject.setAttribute("src","assets/images/ghostbusters.jpg");
+                    imageObject.setAttribute("src",gameObject.wordsToGuessArray[gameObject.wordArrayPos].imgSrc);
+                    gameObject.moveGuessedWord();
                 }
             }
 
