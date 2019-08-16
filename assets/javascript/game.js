@@ -9,11 +9,11 @@ const wordArray = [
     {wordToGuess: "Groundhog Day", imgSrc: "assets/images/groundhog_day.jpg"},
     {wordToGuess: "CaddyShack", imgSrc: "assets/images/caddyshack.jpg"},
     {wordToGuess: "Lost in Translation", imgSrc: "assets/images/lost_in_translation.jpg"},
-    {wordToGuess: "Scrooged", imgSrc: "assets/images/stripes.jpg"},
-    {wordToGuess: "Kingpin", imgSrc: "assets/images/stripes.jpg"},
-    {wordToGuess: "What About Bob", imgSrc: "assets/images/stripes.jpg"},
-    {wordToGuess: "ZombieLand", imgSrc: "assets/images/stripes.jpg"},
-    {wordToGuess: "Meatballs", imgSrc: "assets/images/stripes.jpg"}
+    {wordToGuess: "Scrooged", imgSrc: "assets/images/scrooged.jpg"},
+    {wordToGuess: "Kingpin", imgSrc: "assets/images/kingpin.jpg"},
+    {wordToGuess: "What About Bob", imgSrc: "assets/images/what_about_bob.jpg"},
+    {wordToGuess: "ZombieLand", imgSrc: "assets/images/zombieland.jpg"},
+    {wordToGuess: "Meatballs", imgSrc: "assets/images/meatballs.jpg"}
 ];
 
 const guessImgPath = "assets/images/question_mark.png";
@@ -29,7 +29,7 @@ var scoreObject = document.getElementById("score");
 var imageObject = document.getElementById("answerImage");
 
 var gameObject = {
-    wordsToGuessArray : wordArray,
+    wordsToGuessArray : wordArray.slice(),
     wordsGuessed : [],
     wordArrayPos : -1,
 
@@ -49,9 +49,18 @@ var gameObject = {
 
     getNewWord : function() {
         var newWord;
-        var randomNum = Math.floor(Math.random() * this.wordsToGuessArray.length);
-        newWord = this.wordsToGuessArray[randomNum].wordToGuess;
-        this.wordArrayPos = randomNum;
+        
+
+        if(this.wordsToGuessArray.length < 1){
+            newWord = "";
+            this.wordArrayPos = -1;
+        }
+        else
+        {
+            var randomNum = Math.floor(Math.random() * this.wordsToGuessArray.length);
+            newWord = this.wordsToGuessArray[randomNum].wordToGuess;
+            this.wordArrayPos = randomNum;
+        }
     
         return newWord;
     },
@@ -77,8 +86,22 @@ var gameObject = {
         return maskedWord;
     },
 
+    initNewGame : function() {
+        this.winCount = 0;
+        scoreObject.textContent = this.winCount;
+        this.allWordsGuessed = false;
+        this.currentWordGuessed = false;
+        this.gameOver = false;
+        this.wordsGuessed = [];
+        this.wordsToGuessArray = wordArray.slice();
+        console.log(this.wordsToGuessArray);
+        console.log(wordArray);
+        this.initGameTurn();
+    },
+
     initGameTurn : function() {
         this.wordToGuess = this.getNewWord();
+        console.log("initGameTurn: word to guess is: " + this.wordToGuess);
         this.currentWordGuessed = false;
         this.lettersGuessed = [];
         this.wrongLettersGuessed = [];
@@ -94,24 +117,9 @@ var gameObject = {
             this.lettersGuessed = [];
             guessedLettersObject.textContent = this.lettersGuessed.join(' ');
         }
-        else {
-            this.allWordsGuessed = true;
-            this.gameOver = true;
-        }
     
-    },
+    },    
     
-    initNewGame : function() {
-        this.winCount = 0;
-        scoreObject.textContent = this.winCount;
-        this.allWordsGuessed = false;
-        this.currentWordGuessed = false;
-        this.gameOver = false;
-        this.wordsGuessed = [];
-        this.wordsToGuessArray = wordArray;
-        this.initGameTurn();
-    },
-
     findLetterOccurences : function(array, letter) {
         var arrayPositions = [];
         var indexPos = -1;
@@ -149,11 +157,22 @@ var gameObject = {
 document.onkeyup = function (event) {
     gameObject.letterGuessed = event.key.toLowerCase();
 
-    if (gameObject.currentWordGuessed) {
+    if (gameObject.currentWordGuessed && !gameObject.gameOver) {
         gameObject.initGameTurn();
+
+        //If no words are returned, the game is over and the user guessed all the words
+        if(gameObject.wordToGuess.length == 0){
+            console.log("Game is over you guessed all the words");
+            gameObject.instructionText = "Congratulations!  You guessed all of the words!  Huzzah!  Press any key to begin a new game.";
+            instructionTextObject.textContent =  gameObject.instructionText;
+            gameObject.gameOver = true;
+            gameObject.allWordsGuessed = true;
+        }
     }
     else if (gameObject.gameOver) {
+        console.log("Game is over");
         gameObject.initNewGame();
+        console.log("stuff");
     }
     else if( (gameObject.letterGuessed.length == 1) && (gameObject.letterGuessed.search(/[a-z]/g) >= 0) ){
 
