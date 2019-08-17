@@ -10,59 +10,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body>
-    <div id="bodyContent">
-        <div class="container pb-2 my-4">
-            <div class="row">
-                <div class="col-12">
-                    <h1>Word Guess Game</h1>
-                </div>
+<body class="vh-100">
+    <div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="container py-2 my-auto">
+        <div class="row">
+            <div class="col-12">
+                <h1>Word Guess Game</h1>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <h1>Bill Murray Movies Edition</h1>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h1>Bill Murray Movies Edition</h1>
             </div>
-            <div class="row">
-                <div class="col-6 my-4">
-                    <img id="answerImage" src="assets/images/question_mark.png" alt="Answer Image">
-                </div>
-                <div class="col-6 m-auto">
-                    <div class="row">
-                        <div class="col-12">
-                            <h2 id="letters"></h2>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p id="guesses"></p>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <h3>Incorrect Letters Guessed</h3>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p id="guessedLetters"></p>
-                        </div>
-                    </div>
-                    <div class="row mt-5">
-                        <div class="col-12">
-                            <h3>Wins: <span id="score"></span></h3>
-                        </div>
-                    </div>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-6 my-4">
+                <img id="answerImage" src="assets/images/question_mark.png" alt="Answer Image">
             </div>
-            <div class="row m-2 px-2 py-3 border">
-                <div class="col-12">
-                    <h3 id="instructions"></h3>
+            <div class="col-6 m-auto">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 id="letters"></h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p id="guesses"></p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h3>Incorrect Letters Guessed</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p id="guessedLetters"></p>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <h3>Wins: <span id="score"></span></h3>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="row m-2 px-2 py-3 border">
+            <div class="col-12">
+                <h3 id="instructions"></h3>
+            </div>
+        </div>
     </div>
-
+</div>
     <script type="text/javascript" src="assets/javascript/game.js"></script>
 </body>
 
